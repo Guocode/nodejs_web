@@ -1,0 +1,114 @@
+doctype html
+html
+  head
+    title= title
+    meta(charset="utf-8")
+    meta(name="author", content="pixelhint.com")
+    // CSS Files
+    link(rel="stylesheet", type="text/css", href="css/reset.css")
+    link(rel="stylesheet", type="text/css", href="css/animate.css")
+    link(rel="stylesheet", type="text/css", href="css/main.css")
+    link(href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css", rel="stylesheet")
+    link(rel="stylesheet", type="text/css", href="css/normalize.min.css")
+    link(rel="stylesheet", type="text/css", href="css/style.css")
+    // Javascript Files
+    script(type="text/javascript", src="js/jquery.js")
+    script(type="text/javascript", src="js/slider.js")
+    script(type="text/javascript", src="js/wow.js")
+    script(type="text/javascript", src="js/main.js")
+    script(type="text/javascript", src="js/login.js")
+    script(src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js")
+    block head
+  body
+    // header Section
+    header
+      .container
+
+        // Logo
+        a.logo(href="/home")
+          img(src="imgs/logo.png", alt="Heros")
+        // Navigation Menu
+        nav
+          ul
+            li
+              a.selected(href="/home") Home
+            |
+            li
+              a(href="/about") About
+            |
+            li
+              a(href="/meetall") MeetAll
+            |
+            case userlogin
+              when false
+                li
+                  a(href="#" data-toggle="modal" data-target="#myModal") 登陆/注册
+              when true
+                li
+                  a(href="personal") 个人中心
+                li
+                  a(href="/login/logout") 注销
+            //li
+            //  a(href="login") 登陆/注册
+
+    //end header
+
+    block content
+
+    //Footer Section
+    footer.clearfix
+      .container
+        // Copyrights
+        .copyright.animated.wow.fadeInUp
+          img.footer_logo(src="imgs/footer_logo.png", alt="Heros.")
+          |
+          p © 2014 copyright pixelhint - All rights reserved
+          |
+          p
+            | More free templates @
+            a(href="http://pixelhint.com") Pixelhint.com
+        |
+        |
+        .footer_links
+          // Social Media Links
+          .sm.columns.animated.wow.fadeInRight(data-wow-delay=".2s")
+            h3.columns_title Stay Tuned
+            |
+            ul
+              li
+                a.facebook(href="#") Facebook
+              |
+              li
+                a.twitter(href="#") Twitter
+              |
+              li
+                a.google(href="#") Google Plus
+          // About Links
+          .about.columns.animated.wow.fadeInRight(data-wow-delay=".3s")
+            h3.columns_title About
+            |
+            ul
+              li
+                a(href="#") Our Company
+              |
+              li
+                a(href="#") Our Team
+              |
+              li
+                a(href="#") Blog
+          // Address
+          .address.columns.animated.wow.fadeInRight(data-wow-delay=".4s")
+            h3.columns_title Address
+            |
+            p 1012 14th Street Northwest
+            |
+            p Washington, DC 20005
+            |
+            p.phone (202) 737-1499
+    // end footer
+    #myModal.modal.fade(tabindex="-1", role="dialog", aria-labelledby="myModalLabel")
+      .modal-dialog
+        .modal-content
+          include include/login
+        // /.modal-content
+      // /.modal-dialog

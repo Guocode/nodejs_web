@@ -1,0 +1,106 @@
+extends layout
+
+block content
+  // Slider Section
+  section.slider_wrapper
+    #slides
+      .slide
+        img(src="imgs/slide1.jpg", alt="")
+        |
+        h3.caption 创&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp作
+      |
+      .slide
+        img(src="imgs/slide2.jpg", alt="")
+        |
+        h3.caption 分&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp享
+      |
+      .slide
+        img(src="imgs/slide3.jpg", alt="")
+        |
+        h3.caption 灵&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp感
+  // end slider
+  // Services Section
+  section.services.container.clearfix
+    // Services Title
+    .section_title.animated.wow.fadeInUp
+      h2 What We Do.
+    // Services List
+    .services_list
+      ul
+        li.animated.wow.fadeInRight(data-wow-delay=".2s")
+          h3 We Design.
+          |
+          p
+            | Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+          |
+          a(href="#")
+            | read more
+            span.arrow →
+        |
+        li.animated.wow.fadeInRight(data-wow-delay=".3s")
+          h3 We Innovate.
+          |
+          p
+            | Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+          |
+          a(href="#")
+            | read more
+            span.arrow →
+        |
+        li.animated.wow.fadeInRight(data-wow-delay=".4s")
+          h3 We Create.
+          |
+          p
+            | Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+          |
+          a(href="#")
+            | read more
+            span.arrow →
+  // end services
+  // Projects Section
+  section.projects.container.clearfix
+    // Projects Title
+    .section_title.animated.wow.fadeInUp
+      h2 Our Work.
+      |
+      a.details(href="")
+        | More Projects
+        span.arrow →
+    // Projects List
+    .projects_list.clearfix
+      ul
+        li.animated.wow.fadeInRight(data-wow-delay=".2s")
+          a(href="#")
+            span.p_logo1
+        |
+        li.animated.wow.fadeInRight(data-wow-delay=".3s")
+          a(href="#")
+            span.p_logo2
+  // end projects
+  // Clients Section
+  section.clients.container
+    // Clients section Title
+    .section_title.animated.wow.fadeInUp
+      h2 Our Happy Clients.
+    // Clients List
+    .client_list.clearfix
+      ul
+        li.animated.wow.fadeInRight(data-wow-delay=".2s")
+          img(src="imgs/client_logo.jpg", alt="Client 1")
+        |
+        li.animated.wow.fadeInRight(data-wow-delay=".3s")
+          img(src="imgs/client_logo.jpg", alt="Client 1")
+        |
+        li.animated.wow.fadeInRight(data-wow-delay=".4s")
+          img(src="imgs/client_logo.jpg", alt="Client 1")
+        |
+        li.animated.wow.fadeInRight(data-wow-delay=".5s")
+          img(src="imgs/client_logo.jpg", alt="Client 1")
+  // end clients
+  // Call To Action Section
+  section.cta
+    .container.animated.wow.fadeInUp
+      h3.cta_title Ready To Start Your Project?
+      |
+      a.cta_button(href="#") yes we are ready →
+  // end cta(call to action)

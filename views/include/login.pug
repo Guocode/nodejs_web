@@ -1,0 +1,66 @@
+.form
+    ul.tab-group
+        li.tab.active
+            a(href="#login") Log In
+        li.tab
+            a(href="#signup") Sign Up
+    .tab-content
+        #login
+            h1 Welcome Back!
+            |
+            form(action="/login/signin", method="post")
+                .field-wrap
+                    label
+                        | User Name
+                        span.req *
+                    |
+                    input(type="text",name="username", required="", autocomplete="off")
+                |
+                .field-wrap
+                    label
+                        | Password
+                        span.req *
+                    |
+                    input(type="password",name="password", required="", autocomplete="off")
+
+                |
+                //p.forgot
+                //    a(href="#") Forgot Password?
+                |
+                button.button.button-block Log In
+
+        #signup
+            h1 Sign Up for Free
+            form(action="/login/signup", method="post")
+                .field-wrap
+                    label
+                        | User Name
+                        span.req *
+                    |
+                    input(type="text",name="username", required="", autocomplete="off")
+                |
+                .field-wrap
+                    label
+                        | Email Address
+                        span.req *
+                    |
+                    input(type="email",name="email", required="", autocomplete="off")
+                |
+                |
+                .field-wrap
+                    label
+                        | Set Your Password
+                        span.req *
+                    |
+                    input(type="password",name="password1", required="", autocomplete="off")
+
+                .field-wrap
+                    label
+                        | Confirm Your Password
+                        span.req *
+                    |
+                    input(type="password",name="password2", required="", autocomplete="off")
+
+                button.button.button-block(type="submit") Get Started
+    // tab-content
+// /form
