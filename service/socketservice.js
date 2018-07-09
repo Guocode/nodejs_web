@@ -36,11 +36,17 @@ function createsocket(server,socketpool) {
         });
         socket.on('send', function(data) {
             //将消息输出到控制台
-            socket.partner.emit('recmsg',data);
+            socket.partner.emit('msg',data);
             console.log(data);
         });
         socket.on('discon',function (data) {
+
             console.log("断开连接："+this.id);
+            //他自己要断开连接 并且如果是游戏中，触发他的队友断开连接 状态改变！！！线程池移除未做 待改造
+            if(this.partner!=null){
+                this.partner.emit('discon');
+                this.partner=null;
+            }
             this.disconnect();
             socketpool.discon = this;
             // socketpool.freem=this;

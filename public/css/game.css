@@ -3,7 +3,7 @@
 }
 .am-u-sm-9{
     height: 100%;
-    background-color: #6c6c6c;
+    background-color: rgba(0,0,0,0.3);
     padding-left:0!important;
     padding-right:0!important;
     /*margin: 10px;*/
@@ -16,7 +16,7 @@
     padding-left:0!important;
     padding-right:0!important;
 }
-.btn-loading-example{
+.am-btn-primary{
     display: inline;
     width: 110px;
     margin: 20px;
@@ -25,20 +25,22 @@
     height: 500px;
 }
 .am-input-group{
-    bottom: -20px;
+    /*bottom: -20px;*/
+    height: 38px;
 }
 .hr0{
+    margin: 0;
     height:1px;
     border:none;
     border-top:2px solid #ddd;
 }
-.infobar p.active{
-    /*display: none;*/
-    display: inline;
-}
+/*.infobar p.active{*/
+/*!*display: none;*!*/
+/*display: inline;*/
+/*}*/
 .infobar p {
-    display: none;
-    /*display: inline;*/
+
+    display: inline;
 }
 .am-comment-main{
     margin-right: 7px!important;

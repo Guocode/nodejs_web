@@ -14,21 +14,19 @@ block content
             //.left
             .wrapper
                 .content
+                    .mask
+                        p(style="text-align: center") 请点击开始匹配
                     section#chessboard.clear
-                    section#mask
-                        aside.conBox
-                            h1.borderBot 请选择棋盘规格！
-                            p#subBtn.border -
-                            p#gridNum.borderTop.borderBot(value='10') 10
-                            p#addBtn.border +
-                            button#submitBtn 确认
+                    //section#mask
+                    //    aside.conBox
+                    //        button#submitBtn 确认
 
         .am-u-sm-3
             .wrapper2
                 .content
                     span.infobar
-                        button#match.am-btn.am-btn-primary.btn-loading-example(type='button', data-am-popover="{content: '配对玩家：超级锅', trigger: 'hover focus'}", data-am-loading="{spinner: 'circle-o-notch', loadingText: '加载中...', resetText: '开始匹配'}") 开始匹配
-                        p 匹配成功
+                        button#match.am-btn.am-btn-primary(type='button', data-am-popover="{content: '配对玩家：超级锅', trigger: 'hover focus'}") 开始匹配
+                        p.statusinfo
                     hr.hr0
                     .am-scrollable-vertical.right
                         ul.am-comments-list.am-comments-list-flip
@@ -105,10 +103,10 @@ block content
                             button.am-btn.am-btn-default(type='button') 发送
     // 在这里编写你的代码
 
-    section.services.container.clearfix
-        .tool.group
-            textarea(id='input',rows="10")
-            button(id='con' name='con_btn') 建立连接
-            //button(id='match' name='match_btn') 匹配队友
-            button(id='send' name='send_btn') 发送消息
-            button(id='discon' name='discon_btn') 断开连接
+    //section.services.container.clearfix
+    //    .tool.group
+    //        textarea(id='input',rows="10")
+    //        button(id='con' name='con_btn') 建立连接
+    //        //button(id='match' name='match_btn') 匹配队友
+    //        button(id='send' name='send_btn') 发送消息
+    //        button(id='discon' name='discon_btn') 断开连接
