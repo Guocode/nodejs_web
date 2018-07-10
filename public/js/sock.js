@@ -1,9 +1,11 @@
-var socket = io.connect();//与服务器进行连接
-window.onbeforeunload = function (event) {
-    alert("要断开连接");
-    socket.emit('discon', 'aaa');
-};
+// window.onbeforeunload=function(e){
+//     var e = window.event||e;
+//     e.returnValue=("确定离开当前页面吗？");
+//     socket.emit('discon', 'aaa');
+//     io.disconnect();
+// }
 $(document).ready(function () {
+    var socket = io.connect();//与服务器进行连接
     console.log("向服务器发送连接请求");
     $('#con').on('click',function () {
         if(true){
@@ -14,13 +16,11 @@ $(document).ready(function () {
         }
     });
     $('#match').on('click', function () {
-        // var $btn = $(this);
-        // $btn.button('匹配中');
         socket.emit('match', null);
     });
-    $('#send').on('click', function () {
+    $('#sendmsg').on('click', function () {
         console.log('发送消息');
-        socket.emit('send', document.getElementById('input').value);
+        socket.emit('send', document.getElementById('msginput').value);
     });
     $('#discon').on('click', function () {
         console.log('断开连接');
@@ -32,6 +32,7 @@ $(document).ready(function () {
     socket.on('matchsuccess', function (data) {
         $('#match').text('匹配成功');
         $('#match').addClass('am-disabled');
+        $('#sendmsg').removeClass('am-disabled');
         $('.mask').addClass('hide');
         console.log("匹配成功");
         $('.infobar p').text('正在与{'+data+'}共同游戏');
@@ -51,7 +52,14 @@ $(document).ready(function () {
     socket.on("gamereq",function () {
 
     });
-    socket.on("discon",function () { //队友跑了
+    socket.on("partnerdisc",function () { //队友跑了
         alert("你的队友跑路了");
+        $('#match').text('重新匹配');
+        $('#match').removeClass('am-disabled');
+        $('.infobar p').text('');
+        $('.mask').removeClass('hide');
+    });
+    socket.on("user left",function (data) { //队友跑了
+        console.log(data.username+"跑了！");
     })
 });

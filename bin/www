@@ -7,6 +7,12 @@
 var app = require('../app');
 var debug = require('debug')('nodeweb:server');
 var http = require('http');
+var HashMap = require('../util/HashMap');
+var socketpool2 = {
+    free:new HashMap(),
+    busy:new HashMap(),
+    number:0
+}
 var socketpool = {
     free:[],
     busy:[],
@@ -18,15 +24,15 @@ var socketpool = {
     },
     set frees(socket){
         this.free.push(socket);
-        // console.log("当前空闲socket连接数："+this.free.length+'\n'+"当前忙碌socket连接数："+this.busy.length);
     },
-    set freem(socket){
-        for(f in this.free){
-            if(f!=socket){
-                this.busy.push(this.free.pop(f));
+    set tobusy(socket){//把free中的socket移到busy
+        for(var i =0;i<this.free.length;i++){
+            if(this.free[i]==socket){
+                this.busy.push(this.free[i]);
+                this.free.splice(i,1);
+                return;
             }
         }
-        // console.log("当前空闲socket连接数："+this.free.length+'\n'+"当前忙碌socket连接数："+this.busy.length);
     },
     set discon(socket){
         for(var i=0;i<this.free.length;i++)
@@ -34,29 +40,49 @@ var socketpool = {
             if(this.free[i]==socket)
             {
                 this.free.splice(i,1);
-                break;
+                return;
             }
         }
-        // console.log("当前空闲socket连接数："+this.free.length+'\n'+"当前忙碌socket连接数："+this.busy.length);
+    },
+    set disconb(socket){
+        for(var i=0;i<this.busy.length;i++)
+        {
+            if(this.busy[i]==socket)
+            {
+                this.busy.splice(i,1);
+                return;
+            }
+        }
+    },
+    set back2free(socket){
+        for(var i=0;i<this.busy.length;i++)
+        {
+            if(this.busy[i]==socket)
+            {
+                this.free.push(socket);
+                this.busy.splice(i,1);
+                return;
+            }
+        }
     },
     findpartner:function (socket,callback){
         for(var i=0;i<this.free.length;i++)
         {
             if(this.free[i]!=socket)
             {
-                callback(this.free[i]);
-                this.freem = socket;
-                this.freem = this.free[i];
-                return this.free[i];
+                socket.partner = this.free[i];
+                this.free[i].partner = socket;
+                socket.emit('matchsuccess',this.free[i].id);
+                this.free[i].emit('matchsuccess',socket.id);
+                this.tobusy = socket;
+                this.tobusy = this.free[i];
+                return 0;
             }
         }
         return null;
     }
 };
 
-// setInterval(function () {
-//   console.log("当前socket连接数："+socketpool.free.length);
-// },1000);
 /**
  * Get port from environment and store in Express.
  */
@@ -70,7 +96,7 @@ app.set('port', port);
 
 var server = http.createServer(app);
 var sock = require('../service/socketservice');
-var io = sock(server,socketpool);
+var io = sock(server,socketpool,socketpool2);
 /**
  * Listen on provided port, on all network interfaces.
  */
@@ -84,19 +110,19 @@ server.on('listening', onListening);
  */
 
 function normalizePort(val) {
-  var port = parseInt(val, 10);
+    var port = parseInt(val, 10);
 
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
+    if (isNaN(port)) {
+        // named pipe
+        return val;
+    }
 
-  if (port >= 0) {
-    // port number
-    return port;
-  }
+    if (port >= 0) {
+        // port number
+        return port;
+    }
 
-  return false;
+    return false;
 }
 
 /**
@@ -104,27 +130,27 @@ function normalizePort(val) {
  */
 
 function onError(error) {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
 
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+    var bind = typeof port === 'string'
+        ? 'Pipe ' + port
+        : 'Port ' + port;
 
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        case 'EACCES':
+            console.error(bind + ' requires elevated privileges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            console.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
 }
 
 /**
@@ -132,9 +158,9 @@ function onError(error) {
  */
 
 function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+    var addr = server.address();
+    var bind = typeof addr === 'string'
+        ? 'pipe ' + addr
+        : 'port ' + addr.port;
+    debug('Listening on ' + bind);
 }
