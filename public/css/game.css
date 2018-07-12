@@ -19,10 +19,10 @@
 .am-btn-primary{
     display: inline;
     width: 110px;
-    margin: 20px;
+    margin: 10px;
 }
 .right{
-    height: 50%;
+    height: 65%;
 }
 .am-input-group{
     /*bottom: -20px;*/
@@ -43,8 +43,11 @@
 
     display: inline;
 }
-.am-comment-main{
-    margin-right: 7px!important;
+/*.am-comment-main{*/
+/*margin-right: 7px!important;*/
+/*}*/
+.am-comment-hd{
+    height: auto;
 }
 .wrapper{
     position:relative;
@@ -68,5 +71,5 @@
     /*background:gray;*/
 }
 .infobar{
-    height: 15%;
+    /*height: 15%;*/
 }

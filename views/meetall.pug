@@ -8,8 +8,6 @@ block head
     script(type="text/javascript", src="js/amazeui.js")
     script(type="text/javascript", src="js/game.js")
     script(type="text/javascript", src="js/gobang.js")
-    script(type="text/javascript", src="js/vue.js")
-    script(type="text/javascript", src="js/vuemsg.js")
 block content
     .am-g
         .am-u-sm-9
@@ -17,7 +15,7 @@ block content
             .wrapper
                 .content
                     .mask
-                        p(style="text-align: center") Please start matching
+                        p(style="text-align: center") Match to start!
                     section#chessboard.clear
                     //section#mask
                     //    aside.conBox
@@ -27,31 +25,12 @@ block content
             .wrapper2
                 .content
                     div.infobar
-                        button#match.am-btn.am-btn-primary(type='button', data-am-popover="{content: '配对玩家：超级锅', trigger: 'hover focus'}") Match
+                        button#match.am-btn.am-btn-primary(type='button', data-am-popover="{content: 'enjoy yourself!', trigger: 'hover focus'}") Match
                         p.statusinfo
                     hr.hr0
-                    .am-scrollable-vertical.right#msglist
-                        li(v-for='msg in msgs')
-                            |{{msg.content}}
-                        ul.am-comments-list.am-comments-list-flip
-                            li.am-comment
-                                a(href='#link-to-user-home')
-                                    img.am-comment-avatar(src='http://www.gravatar.com/avatar/1ecedeede84a44f371b9d8d656bb4265?d=mm&s=96', alt='', width='48', height='48')
-                                .am-comment-main
-                                    div.am-comment-hd
-                                        .am-comment-meta
-                                            a.am-comment-author(href='#link-to-user') 路人甲
-                                            |  评论于
-                                            time(datetime='2013-07-27T04:54:29-07:00', title='2013年7月27日 下午7:54 格林尼治标准时间+0800') 2014-7-13 0:03
-                                    .am-comment-bd
-                                        p
-                                            | She's gone 我早知道
-                                            br
-                                            | 她将要 从我的生命中走掉
-                                            br
-                                            | 不再停留多一秒
+                    .am-scrollable-vertical.right
                     .am-input-group
-                        input#msginput.am-form-field(type='text')
+                        textarea#msginput.am-form-field(type='text' rows="3")
                         button#sendmsg.am-btn.am-btn-default.am-disabled(type='button') send
 
     // 在这里编写你的代码

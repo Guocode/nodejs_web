@@ -58,6 +58,10 @@ function createsocket(server,socketpool,socketpool2) {
                 username: socket.id
             });
         });
+        socket.on('gamereq',function (data) {
+            console.log("落子"+data);
+            socket.partner.emit('gameres',data);
+        });
     });
     return io;
 }

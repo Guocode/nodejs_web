@@ -166,3 +166,11 @@ textarea {
   margin-top: -20px;
   text-align: right;
 }
+#msginput{
+  height: 100px;
+  color: #000000 !important;
+}
+.am-comment-primary,.am-comment-secondary{
+  padding-left: 1em;
+  padding-right: 1em;
+}
