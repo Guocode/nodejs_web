@@ -1,0 +1,30 @@
+.about{
+    text-align: center;
+    font-family: "raleway-regular", arial;
+    font-size: 30px;
+    letter-spacing: 8px;
+    margin-top: 50px;
+    font-weight: bolder;
+}
+.proj{
+    text-align: center;
+    font-family: "raleway-regular", arial;
+    font-size: 20px;
+    letter-spacing: 8px;
+    margin-top: 50px;
+}
+.projlink{
+    color: #0084c7;
+    text-decoration: underline;
+
+}
+.projlink:hover{
+    color: #0f9ae0;
+}
+.lazyimg{
+    width: 800px;
+    margin-top: 50px;
+}
+.lazyimgparent{
+    text-align: center;
+}

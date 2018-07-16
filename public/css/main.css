@@ -159,7 +159,9 @@ header nav ul .selected{
     height: auto;
 }
 
-#slides .slide .caption{  
+#slides .slide .caption{
+    letter-spacing: 10px;
+    text-indent: 15px;
     width: 100%;
     position: absolute;
     top: 50%;
