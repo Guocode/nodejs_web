@@ -1,8 +1,9 @@
 # nodejs_web
 
 MeetAll
-在线游戏交友 
-基于websocket的双人在线游戏，后端采用nodejs编写。
+在线游戏交友，一键匹配队友
+基于websocket的双向通信，后端采用nodejs编写，数据库mysql。
+
 
 to do
 
