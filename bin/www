@@ -4,10 +4,14 @@
  * Module dependencies.
  */
 
-var app = require('../app');
+
 var debug = require('debug')('nodeweb:server');
 var http = require('http');
 var HashMap = require('../util/HashMap');
+var Session = require('express-session');
+var SessionStore = require('session-file-store')(Session);
+var session = Session({store: new SessionStore({path: __dirname+'/tmp/sessions'}), secret: 'pass'});
+var app = require('../app')(session);
 var socketpool2 = {
     free:new HashMap(),
     busy:new HashMap(),
@@ -93,10 +97,15 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
-
+// var session = require('express-session');
+// app.use(session({
+//     secret: 'hubwiz app', //secret的值建议使用随机字符串
+//     cookie: {maxAge: 60 * 1000 * 30} // 过期时间（毫秒）
+// }));
+// app.use(session);
 var server = http.createServer(app);
-var sock = require('../service/socketservice');
-var io = sock(server,socketpool,socketpool2);
+
+
 /**
  * Listen on provided port, on all network interfaces.
  */
@@ -104,7 +113,15 @@ var io = sock(server,socketpool,socketpool2);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+var sock = require('../service/socketservice');
+var io = sock(server,socketpool,socketpool2);
 
+var ios = require('./ios');
+var io = require('socket.io')(server);
+io.use(ios(session)); // session support
+io.on('connection', function(socket){
+    console.log("socket用户："+socket.handshake.session.user.username)
+});
 /**
  * Normalize a port into a number, string, or false.
  */

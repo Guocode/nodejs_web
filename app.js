@@ -1,47 +1,49 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var session = require('express-session');
+function app(session) {
+    var createError = require('http-errors');
+    var express = require('express');
+    var path = require('path');
+    var cookieParser = require('cookie-parser');
+    var logger = require('morgan');
+    // var session = require('express-session');
 
-var indexRouter = require('../../Downloads/7.16/nodejs_web/routes/index');
-var usersRouter = require('../../Downloads/7.16/nodejs_web/routes/users');
-var loginRouter = require('../../Downloads/7.16/nodejs_web/routes/login');
 
-var app = express();
+
+    var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+    app.set('views', path.join(__dirname, 'views'));
+    app.set('view engine', 'pug');
 
-app.use(session({
-    secret: 'hubwiz app', //secret的值建议使用随机字符串
-    cookie: {maxAge: 60 * 1000 * 30} // 过期时间（毫秒）
-}));
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+    app.use(session);
+    app.use(logger('dev'));
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: false }));
+    app.use(cookieParser());
+    app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/login', loginRouter);
+    var indexRouter = require('./routes/index');
+    var usersRouter = require('./routes/users');
+    var loginRouter = require('./routes/login');
+    app.use('/', indexRouter);
+    app.use('/users', usersRouter);
+    app.use('/login', loginRouter);
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+    app.use(function(req, res, next) {
+        next(createError(404));
+    });
 
 // error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+    app.use(function(err, req, res, next) {
+        // set locals, only providing error in development
+        res.locals.message = err.message;
+        res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+        // render the error page
+        res.status(err.status || 500);
+        res.render('error');
+    });
+    return app;
+}
+
 
 module.exports = app;
