@@ -106,7 +106,10 @@ window.onload=function() {
         playChess(data)
     });
     $('#match').on('click', function () {
+        $('#match').button('loading');
         socket.emit('match', null);
+        // $('#match').text('Matching...');
+        // $('#match').addClass('am-disabled');
     });
     $('#sendmsg').on('click', function () {
         console.log('发送消息');
@@ -132,7 +135,7 @@ window.onload=function() {
         $('#sendmsg').removeClass('am-disabled');
         $('.mask').addClass('hide');
         console.log("匹配成功");
-        $('.infobar p').text('Playing with: '+data.toString().slice(0,5));
+        $('.infobar p').text('Playing with: '+data);
     });
 }
 $(function () {

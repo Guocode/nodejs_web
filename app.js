@@ -4,23 +4,18 @@ function app(session) {
     var path = require('path');
     var cookieParser = require('cookie-parser');
     var logger = require('morgan');
-    // var session = require('express-session');
-
-
-
     var app = express();
 
 // view engine setup
     app.set('views', path.join(__dirname, 'views'));
     app.set('view engine', 'pug');
-
     app.use(session);
     app.use(logger('dev'));
     app.use(express.json());
     app.use(express.urlencoded({ extended: false }));
     app.use(cookieParser());
     app.use(express.static(path.join(__dirname, 'public')));
-
+// set url router
     var indexRouter = require('./routes/index');
     var usersRouter = require('./routes/users');
     var loginRouter = require('./routes/login');
@@ -44,6 +39,5 @@ function app(session) {
     });
     return app;
 }
-
 
 module.exports = app;

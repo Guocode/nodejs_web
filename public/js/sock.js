@@ -25,7 +25,7 @@ function getNowFormatDate() {
 // $(document).ready(function () {
 console.log("向服务器发送连接请求");
 socket.on('loginsuccess', function (data) {
-    document.title = data.toString().slice(0,5);
+    // document.title = data.toString().slice(0,5);
     console.log("登录成功,id为：",data);
 });
 
@@ -35,15 +35,15 @@ socket.on('recmsg',function (data) {
 });
 
 socket.on('noplayer', function (data) {
-    $('#match').text('No-matched');
+    $('#match').text('Unmatched');
     $('#match').addClass('am-disabled');
     console.log("匹配失败，无空闲玩家");
     setTimeout(function () {
         $('#match').text('Rematch');
+        $('#match').button('reset');
         $('#match').removeClass('am-disabled');
     },2000)
 });
-
 socket.on("partnerdisc",function () { //队友跑了
     alert("Your partner ran away!");
     $('#match').text('Rematch');
@@ -54,5 +54,8 @@ socket.on("partnerdisc",function () { //队友跑了
 });
 socket.on("user left",function (data) { //队友跑了
     console.log(data.username+"跑了！");
+});
+socket.on("nouser",function (data) { //队友跑了
+    alert("Please login!");
 });
 // });

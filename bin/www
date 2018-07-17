@@ -8,84 +8,16 @@
 var debug = require('debug')('nodeweb:server');
 var http = require('http');
 var HashMap = require('../util/HashMap');
-var Session = require('express-session');
-var SessionStore = require('session-file-store')(Session);
-var session = Session({store: new SessionStore({path: __dirname+'/tmp/sessions'}), secret: 'pass'});
-var app = require('../app')(session);
 var socketpool2 = {
     free:new HashMap(),
     busy:new HashMap(),
     number:0
 }
-var socketpool = {
-    free:[],
-    busy:[],
-    allsock:function () {
-        return this.free.concat(this.busy);
-    },
-    get frees(){
-        return this.free;
-    },
-    set frees(socket){
-        this.free.push(socket);
-    },
-    set tobusy(socket){//把free中的socket移到busy
-        for(var i =0;i<this.free.length;i++){
-            if(this.free[i]==socket){
-                this.busy.push(this.free[i]);
-                this.free.splice(i,1);
-                return;
-            }
-        }
-    },
-    set discon(socket){
-        for(var i=0;i<this.free.length;i++)
-        {
-            if(this.free[i]==socket)
-            {
-                this.free.splice(i,1);
-                return;
-            }
-        }
-    },
-    set disconb(socket){
-        for(var i=0;i<this.busy.length;i++)
-        {
-            if(this.busy[i]==socket)
-            {
-                this.busy.splice(i,1);
-                return;
-            }
-        }
-    },
-    set back2free(socket){
-        for(var i=0;i<this.busy.length;i++)
-        {
-            if(this.busy[i]==socket)
-            {
-                this.free.push(socket);
-                this.busy.splice(i,1);
-                return;
-            }
-        }
-    },
-    findpartner:function (socket,callback){
-        for(var i=0;i<this.free.length;i++)
-        {
-            if(this.free[i]!=socket)
-            {
-                socket.partner = this.free[i];
-                this.free[i].partner = socket;
-                socket.emit('matchsuccess',this.free[i].id);
-                this.free[i].emit('matchsuccess',socket.id);
-                this.tobusy = socket;
-                this.tobusy = this.free[i];
-                return 0;
-            }
-        }
-        return null;
-    }
-};
+var Session = require('express-session');
+var SessionStore = require('session-file-store')(Session);
+var session = Session({store: new SessionStore({path: __dirname+'/tmp/sessions'}), secret: 'pass'});
+var app = require('../app')(session);
+
 
 /**
  * Get port from environment and store in Express.
@@ -97,31 +29,19 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
-// var session = require('express-session');
-// app.use(session({
-//     secret: 'hubwiz app', //secret的值建议使用随机字符串
-//     cookie: {maxAge: 60 * 1000 * 30} // 过期时间（毫秒）
-// }));
-// app.use(session);
-var server = http.createServer(app);
 
+var server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
-
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
-var sock = require('../service/socketservice');
-var io = sock(server,socketpool,socketpool2);
 
-var ios = require('./ios');
 var io = require('socket.io')(server);
-io.use(ios(session)); // session support
-io.on('connection', function(socket){
-    console.log("socket用户："+socket.handshake.session.user.username)
-});
+var sock = require('../service/socketservice')(io,socketpool2,session);
+
 /**
  * Normalize a port into a number, string, or false.
  */
